@@ -17,7 +17,7 @@ from odoo.addons.web.controllers.main import (
     Home,
     ensure_db,
     # login_and_redirect,
-    set_cookie_and_redirect,
+    # set_cookie_and_redirect,
 )
 from odoo.addons.web.controllers.main.utils import _get_login_redirect_url
 
@@ -25,6 +25,11 @@ def login_and_redirect(db, login, key, redirect_url='/web'):
     uid = request.session.authenticate(db, login, key)
     redirect_url = _get_login_redirect_url(uid, redirect_url)
     return set_cookie_and_redirect(redirect_url)
+
+def set_cookie_and_redirect(redirect_url):
+    redirect = request.redirect(redirect_url, 303)
+    redirect.autocorrect_location_header = False
+    return redirect
 
 _logger = logging.getLogger(__name__)
 
